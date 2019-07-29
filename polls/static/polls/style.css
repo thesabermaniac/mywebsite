@@ -68,9 +68,9 @@ ul{
 /*.education ul li:last-child{
     padding-left: 50px;
 }*/
-.education{
+.card{
     width: 50%;
-    margin: 0 auto 50px auto;
+    margin: 50px auto;
     border: 1px solid gray;
     background: gainsboro;
     box-shadow: 2px 2px gray;
@@ -90,4 +90,8 @@ ul{
     margin-block-start: 1em;
     margin-block-end: 1em;
 
+}
+a{
+    text-decoration: none;
+    color: black;
 }

@@ -1,0 +1,47 @@
+{% extends 'resume/base.html' %}
+
+{% block content %}
+    <h1 style="font-size: 3em;">EDUCATION</h1>
+    {% for school in education %}
+        <div class="card">
+            <div class="card-title">
+                <h1>{{ school }}</h1>
+                {% if school.city and school.state %}
+                    <p style="margin-top: -15px">{{ school.city }}, {{ school.state }}</p>
+                {% elif school.city %}
+                    <p style="margin-top: -15px">{{ school.city }}</p>
+                {% elif school.state %}
+                    <p style="margin-top: -15px">{{ school.state }}</p>
+                {% endif %}
+            </div>
+            <div class="info">
+                <ul>
+                    <li><strong>Degree: </strong>{{ school.get_education_level_display }}</li>
+                    <li><strong>From: </strong>{{ school.year_started }}</li>
+                    <li><strong>Major GPA: </strong>{{ school.major_gpa }}</li>
+                    {% if school.courses.all %}
+                        <li style="text-decoration: underline"><strong>Courses</strong></li>
+                        {% for course in school.courses.all %}
+                            <li>{{ course }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+                <ul>
+                    <li><strong>Major: </strong>{{ school.major }}</li>
+                    {% if school.currently_enrolled %}
+                        <li><strong>To: </strong>expected {{ school.expected_end_year }}</li>
+                    {% else %}
+                        <li><strong>To: </strong>{{ school.year_ended }}</li>
+                    {% endif %}
+                    <li><strong>Overall GPA: </strong>{{ school.overall_gpa }}</li>
+                    {% if school.clubs.all %}
+                        <li style="text-decoration: underline"><strong>Clubs</strong></li>
+                        {% for club in school.clubs.all %}
+                            <li>{{ club }}</li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

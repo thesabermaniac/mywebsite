@@ -26,13 +26,13 @@ class ResumeView(generic.ListView):
         return context
 
 
-
-class ExperienceDetail(generic.DetailView):
-    model = Experience
-    template_name = 'resume/experience_detail.html'
+class EducationView(generic.ListView):
+    model = Education
+    template_name = 'resume/education.html'
+    context_object_name = 'education'
 
     def get_queryset(self):
-        return Experience
+        return Education.objects.all()
 
 
 # Create your views here.

@@ -1,5 +1,6 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from partial_date import PartialDateField
 import datetime
 
 EDUCATION_LEVEL_CHOICES = (
@@ -54,8 +55,8 @@ class Person(models.Model):
 class Experience(models.Model):
     company = models.CharField(max_length=50)
     job_description = models.CharField(max_length=200)
-    start_date = models.DateField('start_date', blank=True)
-    end_date = models.DateField('end_date', blank=True)
+    start_date = PartialDateField('start_date', blank=True, null=True)
+    end_date = PartialDateField('end_date', blank=True, null=True)
     is_visible = models.BooleanField(default=True)
     is_current = models.BooleanField(default=True)
 
@@ -64,7 +65,7 @@ class Experience(models.Model):
             self.is_current = False
 
     def __str__(self):
-        return self.company + ", " + self.job_description
+        return self.company
 
 
 class Course(models.Model):
@@ -91,9 +92,9 @@ class Education(models.Model):
     state = models.CharField(max_length=50, blank=True)
     education_level = models.CharField(max_length=20, choices=EDUCATION_LEVEL_CHOICES, default=None)
     currently_enrolled = models.BooleanField(default=False)
-    year_started = models.DateField('start_year', blank=True, null=True)
-    year_ended = models.DateField('end_year', blank=True, null=True)
-    expected_end_year = models.DateField('expected_end_year', blank=True, null=True)
+    year_started = PartialDateField('start_year', blank=True, null=True)
+    year_ended = PartialDateField('end_year', blank=True, null=True)
+    expected_end_year = PartialDateField('expected_end_year', blank=True, null=True)
     major = models.CharField(max_length=50, blank=True, null=True)
     major_gpa = models.FloatField(blank=True, null=True)
     overall_gpa = models.FloatField(blank=True, null=True)
@@ -113,7 +114,7 @@ class Skill(models.Model):
     is_visible = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.level_of_expertise + " " + self.name
+        return self.get_level_of_expertise_display() + " " + self.name
 
 
 class Project(models.Model):

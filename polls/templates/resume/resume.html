@@ -1,47 +1,86 @@
 {% extends 'resume/base.html' %}
 
 {% block content %}
-    <h1 style="font-size: 3em;">EDUCATION</h1>
-    {% for school in education %}
-        <div class="education">
+    <div class="card">
+        <a href="/resume/education/">
             <div class="card-title">
-                <h1>{{ school }}</h1>
-                {% if school.city and school.state %}
-                    <p style="margin-top: -15px">{{ school.city }}, {{ school.state }}</p>
-                {% elif school.city %}
-                    <p style="margin-top: -15px">{{ school.city }}</p>
-                {% elif school.state %}
-                    <p style="margin-top: -15px">{{ school.state }}</p>
-                {% endif %}
+                <h1>Education</h1>
             </div>
-            <div class="info">
+            <div class="info" style="width: 55%">
                 <ul>
-                    <li><strong>Degree: </strong>{{ school.get_education_level_display }}</li>
-                    <li><strong>From: </strong>{{ school.year_started }}</li>
-                    <li><strong>Major GPA: </strong>{{ school.major_gpa }}</li>
-                    {% if school.courses.all %}
-                        <li style="text-decoration: underline"><strong>Courses</strong></li>
-                        {% for course in school.courses.all %}
-                            <li>{{ course }}</li>
-                        {% endfor %}
-                    {% endif %}
+                    {% for school in education %}
+                            <li>{{ school }}</li>
+                    {% endfor %}
                 </ul>
                 <ul>
-                    <li><strong>Major: </strong>{{ school.major }}</li>
-                    {% if school.currently_enrolled %}
-                        <li><strong>To: </strong>expected {{ school.expected_end_year }}</li>
-                    {% else %}
-                        <li><strong>To: </strong>{{ school.year_ended }}</li>
-                    {% endif %}
-                    <li><strong>Overall GPA: </strong>{{ school.overall_gpa }}</li>
-                    {% if school.clubs.all %}
-                        <li style="text-decoration: underline"><strong>Clubs</strong></li>
-                        {% for club in school.clubs.all %}
-                            <li>{{ club }}</li>
-                        {% endfor %}
-                    {% endif %}
+                    {% for school in education %}
+                        {% if not school.currently_enrolled %}
+                            <li>{{ school.year_started.date.month }}/{{ school.year_started.date.year }} -
+                                {{ school.year_ended.date.month }}/{{ school.year_ended.date.year }}</li>
+                        {% else %}
+                            <li>{{ school.year_started.date.month }}/{{ school.year_started.date.year }} -
+                                {{ school.expected_end_year.date.month }}/{{ school.expected_end_year.date.year }}</li>
+                        {% endif %}
+                    {% endfor %}
                 </ul>
             </div>
+        </a>
+    </div>
+    <div class="card">
+        <div class="card-title">
+            <h1>Experience</h1>
         </div>
-    {% endfor %}
+        <div class="info" style="width: 70%">
+            <ul>
+                {% for job in experiences %}
+                        <li>{{ job }}</li>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for job in experiences %}
+                    {% if not job.is_current %}
+                        <li>{{ job.start_date.date.month }}/{{ job.start_date.date.year }} -
+                            {{ job.end_date.date.month }}/{{ job.end_date.date.year }}</li>
+                    {% else %}
+                        <li>{{ job.start_date.date.month }}/{{ job.start_date.date.year }} -
+                            present</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">
+            <h1>Skills</h1>
+        </div>
+        <div class="info" style="width: 70%">
+            <ul>
+                {% for skill in skills %}
+                        <li>{{ skill.get_category_display }}</li>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for skill in skills %}
+                        <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-title">
+            <h1>Projects</h1>
+        </div>
+        <div class="info" style="width: 90%">
+            <ul>
+                {% for project in projects %}
+                        <li>{{ project }}</li>
+                {% endfor %}
+            </ul>
+            <ul>
+                {% for project in projects %}
+                    <li><a href="{{ project.github_link }}" target="_blank">{{ project.github_link }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
